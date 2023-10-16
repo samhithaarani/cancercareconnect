@@ -1,0 +1,86 @@
+    /* Add this CSS to your stylesheets or use inline styles */
+    .patient-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .patient-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .patient-table th, .patient-table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .patient-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .logout-link {
+        margin-top: 10px;
+        padding: 5px 10px;
+        border-radius: 3px;
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #ccc;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .logout-link:hover {
+        background-color: #f7f7f7;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center align horizontally */
+        margin-top: 10px;
+    }
+
+    .search-input {
+        width: 230px; /* Adjusted width */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-right: 5px; /* Space between search box and button */
+    }
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        padding: 8px 16px;
+        text-decoration: none;
+        background-color: #f2f2f2;
+        color: #333;
+        border-radius: 4px;
+        margin: 0 4px;
+    }
+
+    .pagination a:hover {
+        background-color: #ddd;
+    }
+
+    .pagination .current-page {
+        font-weight: bold;
+    }
+    
+
+    .search-button {
+        background-color: #3173b9;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+    }

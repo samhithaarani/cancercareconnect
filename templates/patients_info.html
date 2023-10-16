@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+<style>
+    /* Your existing styles here... */
+</style>
+
+<h1 align="center">All Patients Information</h1>
+{% if user.is_authenticated %}
+    <h1>Welcome, {{ user.username }}!</h1>
+    <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+    <a href="{% url 'generate_pie_chart' %}" class="logout-link">Staticstics</a>
+    <a href="{% url 'patients_info' %}" class="logout-link">All Cases</a>
+    <a href="{% url 'patients_info' %}?study=1" class="logout-link">Cases Under Study</a>
+
+
+{% endif %}
+
+<!-- ... Your existing patient table ... -->
+
+<!-- Search Form -->
+<div class="search-form">
+    <form method="GET" style="display: flex; align-items: center;">
+        <input type="text" class="search-input" id="search" name="search" value="{{ search_query }}" placeholder="Search Patients" style="width: 250px; margin-right: 10px;">
+        <button type="submit" class="search-button" style="background-color: #55687c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Search</button>
+    </form>
+</div>
+
+<!-- Patient List -->
+<div class="patient-list">
+    {% if patients %}
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Primary Tumor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td><a href="{% url 'patient_detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a></td>
+                    <td>{{ patient.primary_tumor }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        
+        <!-- Pagination -->
+        <div class="pagination" style="text-align: center; margin-top: 20px;">
+            <span class="step-links">
+                {% if patients.has_previous %}
+                    <a href="?page=1{% if study_filter == '1' %}&study=1{% endif %}" class="page-link">&laquo; first</a>
+                    <a href="?page={{ patients.previous_page_number }}{% if study_filter == '1' %}&study=1{% endif %}" class="page-link">previous</a>
+                {% endif %}
+                
+                <span class="current-page">
+                    Page {{ patients.number }} of {{ patients.paginator.num_pages }}.
+                </span>
+                
+                {% if patients.has_next %}
+                    <a href="?page={{ patients.next_page_number }}{% if study_filter == '1' %}&study=1{% endif %}" class="page-link">next</a>
+                    <a href="?page={{ patients.paginator.num_pages }}{% if study_filter == '1' %}&study=1{% endif %}" class="page-link">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        {% if show_back_to_info %}
+         <a href="{% url 'patients_info' %}" class="back-link">Back to Patients Information</a>
+        {% endif %}
+
+    {% else %}
+        <p>No results found.</p>
+        <a href="{% url 'patients_info' %}" class="back-link">Back to patients Information</a>
+    {% endif %}
+</div>
+
+
+
+</body>
+{% endblock %}
