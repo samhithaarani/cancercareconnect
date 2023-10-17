@@ -53,7 +53,7 @@ class Control(models.Model):
 
 class AdminManagedUser(models.Model):
     username = models.CharField(max_length=150, unique=True)
-    password = models.CharField(max_length=128)
+    password = models.CharField(max_length=129)
     # ... (other fields)
 
     def __str__(self):
