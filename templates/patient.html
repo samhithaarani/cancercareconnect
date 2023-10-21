@@ -81,7 +81,7 @@
         <i class="fas fa-arrow-left"></i> Back
     </a>
     <div class="patient-info-box">
-        <h1>{{ patient.first_name }} {{ patient.last_name }}</h1>
+        <h1>{{ patient.first_name|first }}.{{ patient.last_name|first }}</h1>
         <p><strong>Primary Tumor:</strong> {{ patient.primary_tumor }}</p>
         <p><strong>Number of Metastasis:</strong> {{ patient.num_metastasis }}</p>
         
