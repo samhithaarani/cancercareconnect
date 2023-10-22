@@ -12,7 +12,7 @@
 <h1 align="center">All Patients Information</h1>
 {% if user.is_authenticated %}
     <h1>Welcome, {{ user.username }}!</h1>
-    <a href="{% url 'logout' %}" class="logout-link">LogOutt</a>
+    <a href="{% url 'logout' %}" class="logout-link">LogOut</a>
     <a href="{% url 'generate_pie_chart' %}" class="logout-link">Staticstics</a>
     <a href="{% url 'patients_info' %}" class="logout-link">All Cases</a>
     <a href="{% url 'patients_info' %}?study=1" class="logout-link">Cases Under Study</a>

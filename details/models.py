@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.functions import Lower
 
 class Patient(models.Model):
+    SEX_CHOICES = [('M', 'Male'),('F', 'Female'),('O', 'Other'),]
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     primary_tumor = models.CharField(max_length=100)
@@ -11,6 +12,8 @@ class Patient(models.Model):
     ct_images_after = models.ManyToManyField('PatientImage', related_name='after_images', blank=True)
     mark_for_study = models.BooleanField(default=False)  # Add this field
     controls = models.ManyToManyField('Control', related_name='patient_controls', blank=True)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
