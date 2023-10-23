@@ -8,6 +8,7 @@ class Patient(models.Model):
     last_name = models.CharField(max_length=100)
     primary_tumor = models.CharField(max_length=100)
     num_metastasis = models.PositiveIntegerField()
+    date_of_first_presentation = models.DateField(blank=True, null=True)
     ct_images_before = models.ManyToManyField('PatientImage', related_name='before_images', blank=True)
     ct_images_after = models.ManyToManyField('PatientImage', related_name='after_images', blank=True)
     mark_for_study = models.BooleanField(default=False)  # Add this field

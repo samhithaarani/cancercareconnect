@@ -84,6 +84,8 @@
         <h1>{{ patient.first_name|first }}.{{ patient.last_name|first }}</h1>
         <p><strong>Primary Tumor:</strong> {{ patient.primary_tumor }}</p>
         <p><strong>Number of Metastasis:</strong> {{ patient.num_metastasis }}</p>
+        <p><strong>Date Of First Presentation:</strong> {{ patient.date_of_first_presentation }}</p>
+
         
         {% if patient.patientadditionalinfo %}
         <h3>Additional Information</h3>
