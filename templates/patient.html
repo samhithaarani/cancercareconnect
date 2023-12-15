@@ -1,154 +1,213 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<!-- Add this line in the <head> section of your HTML file -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-<style>
-    /* Add this CSS to your stylesheets or use inline styles */
-        /* Your existing styles here... */
-
-    /* Style for the timeline */
-    .timeline {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .timeline-item {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    .timeline-item:hover {
-        background-color: #f0f0f0;
-    }
-
-    .timeline-item .date {
-        width: 150px;
-    }
-
-    .timeline-item .description {
-        flex-grow: 1;
-        display: none; /* Initially hidden */
-        padding: 10px;
-        border-left: 2px solid #007bff; /* Add your preferred color here */
-    }
-    .patient-info-box {
-        background-color: #f8f8f8;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-        text-align: center; /* Align the content to the center */
-    }
-
-.image-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.image-set {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-    width: 33.33%; /* Display 3 images in a row */
-}
-
-.image-set img {
-    max-width: 100%;
-    height: 200px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    object-fit: cover; /* Maintain aspect ratio while filling container */
-}
-
-.img-heading {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-</style>
-
-<div class="patient-detail">
-    <a href="{% url 'patients_info' %}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
-    <div class="patient-info-box">
-        <h1>{{ patient.first_name|first }}.{{ patient.last_name|first }}</h1>
-        <p><strong>Primary Tumor:</strong> {{ patient.primary_tumor }}</p>
-        <p><strong>Number of Metastasis:</strong> {{ patient.num_metastasis }}</p>
-        <p><strong>Date Of First Presentation:</strong> {{ patient.date_of_first_presentation }}</p>
-
-        
-        {% if patient.patientadditionalinfo %}
-        <h3>Additional Information</h3>
-        <p>{{ patient.patientadditionalinfo.text_info }}</p>
-        {% endif %}
-    </div>
-    
-    {% if patient.num_metastasis %}
-        <div class="image-gallery">
-            <div class="img-heading">Before Treatment</div>
-            {% for before_image in patient.ct_images_before.all %}
-                <div class="image-set">
-                    <img src="{{ before_image.image.url }}" alt="Before Treatment">
-                </div>
-            {% endfor %}
-        </div>
-        
-        <div class="image-gallery">
-            <div class="img-heading">After Treatment</div>
-            {% for after_image in patient.ct_images_after.all %}
-                <div class="image-set">
-                    <img src="{{ after_image.image.url }}" alt="After Treatment">
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
 
 
+     {% extends 'base.html' %}
 
-{% if patient.controls.all %}
-<h3>Control Timeline</h3>
-<ul class="timeline">
-    {% for control in patient.controls.all %}
-        <li class="timeline-item">
-            <div class="date">{{ control.date }}</div>
-            <div class="description">
-                <p><strong>Date:</strong> {{ control.date }}</p>
-                <p><strong>Details:</strong> {{ control.details }}</p>
+     {% block content %}
+     <!-- Add this line in the <head> section of your HTML file -->
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+     
+     <style>
+         /* Add this CSS to your stylesheets or use inline styles */
+             /* Your existing styles here... */
+     
+         /* Style for the timeline */
+         .timeline {
+             list-style: none;
+             padding: 0;
+             margin: 0;
+         }
+     
+         .timeline-item {
+             display: flex;
+             align-items: center;
+             cursor: pointer;
+         }
+     
+         .timeline-item:hover {
+             background-color: #f0f0f0;
+         }
+     
+         .timeline-item .date {
+             width: 150px;
+         }
+     
+         .timeline-item .description {
+             flex-grow: 1;
+             display: none; /* Initially hidden */
+             padding: 10px;
+             border-left: 2px solid #007bff; /* Add your preferred color here */
+         }
+         .patient-info-box {
+             background-color: #f8f8f8;
+             border-radius: 10px;
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+             padding: 20px;
+             margin-bottom: 20px;
+             text-align: center; /* Align the content to the center */
+         }
+     
+     .image-gallery {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+     }
+     
+     .image-set {
+         display: flex;
+         align-items: center;
+         margin: 10px;
+         width: 33.33%; /* Display 3 images in a row */
+     }
+     
+     .image-set img {
+         max-width: 100%;
+         height: 200px;
+         border: 1px solid #ddd;
+         border-radius: 8px;
+         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+         object-fit: cover; /* Maintain aspect ratio while filling container */
+     }
+     
+     .img-heading {
+         width: 100%;
+         text-align: center;
+         margin-bottom: 10px;
+         font-weight: bold;
+         font-size: 18px;
+     }
+     
+     
+         .image-zoom-container {
+             display: none;
+             position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             background-color: rgba(0, 0, 0, 0.9);
+             z-index: 999;
+             justify-content: center;
+             align-items: center;
+             overflow: hidden;
+         }
+     
+         .image-zoom {
+             max-width: 90%;
+             max-height: 90%;
+             border: 2px solid #fff;
+             border-radius: 8px;
+             box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+         }
+     
+         .image-zoom-close {
+             position: absolute;
+             top: 15px;
+             right: 15px;
+             color: #fff;
+             font-size: 24px;
+             cursor: pointer;
+         }
+     </style>
+     
+     <div class="patient-detail">
+            <a href="{% url 'patients_info' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <div class="patient-info-box">
+                <h1>{{ patient.first_name|first }}.{{ patient.last_name|first }}</h1>
+                <p><strong>Primary Tumor:</strong> {{ patient.primary_tumor }}</p>
+                <p><strong>Number of Metastasis:</strong> {{ patient.num_metastasis }}</p>
+                <p><strong>Date Of First Presentation:</strong> {{ patient.date_of_first_presentation }}</p>
+
+                
+                {% if patient.patientadditionalinfo %}
+                <h3>Additional Information</h3>
+                <p>{{ patient.patientadditionalinfo.text_info }}</p>
+                {% endif %}
             </div>
-        </li>
-        
-    {% endfor %}
-</ul>
-{% endif %}
-</div>
-
-<script>
-// Add JavaScript to toggle control descriptions
-const timelineItems = document.querySelectorAll('.timeline-item');
-timelineItems.forEach(item => {
-item.addEventListener('click', () => {
-    const description = item.querySelector('.description');
-    if (description.style.display === 'none') {
-        description.style.display = 'block';
-    } else {
-        description.style.display = 'none';
-    }
-});
-});
-</script>
-
-{% endblock %}
+    
+         <!-- Your existing patient details and controls HTML here... -->
+     
+         {% if patient.num_metastasis %}
+             <div class="image-gallery">
+                 <div class="img-heading">Before Treatment</div>
+                 {% for before_image in patient.ct_images_before.all %}
+                     <div class="image-set">
+                         <img src="{{ before_image.image.url }}" alt="Before Treatment">
+                     </div>
+                 {% endfor %}
+             </div>
+     
+             <div class="image-gallery">
+                 <div class="img-heading">After Treatment</div>
+                 {% for after_image in patient.ct_images_after.all %}
+                     <div class="image-set">
+                         <img src="{{ after_image.image.url }}" alt="After Treatment">
+                     </div>
+                 {% endfor %}
+             </div>
+         {% endif %}
+     </div>
+     
+     <ul class="timeline">
+         {% for control in patient.controls.all %}
+             <li class="timeline-item">
+                 <div class="date">{{ control.date }}</div>
+                 <div class="description">
+                     <p><strong>Date:</strong> {{ control.date }}</p>
+                     <p><strong>Details:</strong> {{ control.details }}</p>
+                 </div>
+             </li>
+         {% endfor %}
+     </ul>
+     
+     <div class="image-zoom-container"></div>
+     
+     <script>
+         // Add JavaScript to toggle control descriptions and image zoom effect
+         const timelineItems = document.querySelectorAll('.timeline-item');
+         timelineItems.forEach(item => {
+             item.addEventListener('click', () => {
+                 const description = item.querySelector('.description');
+                 if (description.style.display === 'none') {
+                     description.style.display = 'block';
+                 } else {
+                     description.style.display = 'none';
+                 }
+             });
+         });
+     
+         // Add JavaScript for image zoom effect
+         const imageSets = document.querySelectorAll('.image-set img');
+         const imageZoomContainer = document.querySelector('.image-zoom-container');
+     
+         imageSets.forEach(image => {
+             image.addEventListener('click', () => {
+                 const imageZoom = document.createElement('img');
+                 imageZoom.src = image.src;
+                 imageZoom.classList.add('image-zoom');
+     
+                 const closeButton = document.createElement('i');
+                 closeButton.classList.add('fas', 'fa-times', 'image-zoom-close');
+                 closeButton.addEventListener('click', () => {
+                     imageZoomContainer.style.display = 'none';
+                     imageZoomContainer.innerHTML = '';
+                 });
+     
+                 imageZoomContainer.innerHTML = '';
+                 imageZoomContainer.appendChild(imageZoom);
+                 imageZoomContainer.appendChild(closeButton);
+                 imageZoomContainer.style.display = 'flex';
+             });
+         });
+     </script>
+     
+     {% endblock %}
+     
+     
+     
+     
+     
 
 
 
