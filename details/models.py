@@ -51,9 +51,18 @@ class Control(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date = models.DateField()
     details = models.TextField()
+    
 
     def __str__(self):
         return f"Control for {self.patient.first_name} {self.patient.last_name} on {self.date}"
+
+class Control_Images(models.Model):
+    control = models.ForeignKey(Control, on_delete=models.CASCADE, related_name='control_images_set')
+    image = models.ImageField(upload_to='control/', blank=True)
+    
+    def __str__(self):
+        return f"{self.control.patient.first_name} {self.control.patient.last_name} - Image {self.id}"
+
 
 class AdminManagedUser(models.Model):
     username = models.CharField(max_length=150, unique=True)

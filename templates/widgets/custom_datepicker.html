@@ -1,0 +1,20 @@
+{% load static %}
+<input
+    type="{{ type }}"
+    name="{{ name }}"
+    class="datepicker form-control"
+    {% if value != '' %}value="{{ value|date:'Y-m-d' }}"{% endif %}
+    {% include "django/forms/widgets/attrs.html" %}
+/>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            todayHighlight: true,
+            autoclose: true,
+            startView: 'decade',
+            minViewMode: 'years',
+            maxViewMode: 'decades',
+        });
+    });
+</script>

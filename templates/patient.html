@@ -107,6 +107,35 @@
              font-size: 24px;
              cursor: pointer;
          }
+
+         .controls {
+            text-align: center;
+        }
+
+        .controls h2 {
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            list-style: none;
+            padding: 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .timeline-item .description,
+        .timeline-item .image-gallery {
+            display: none;
+        }
+
+        .image-gallery img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
      </style>
      
      <div class="patient-detail">
@@ -149,34 +178,53 @@
          {% endif %}
      </div>
      
-     <ul class="timeline">
-         {% for control in patient.controls.all %}
-             <li class="timeline-item">
-                 <div class="date">{{ control.date }}</div>
-                 <div class="description">
-                     <p><strong>Date:</strong> {{ control.date }}</p>
-                     <p><strong>Details:</strong> {{ control.details }}</p>
-                 </div>
-             </li>
-         {% endfor %}
-     </ul>
+<!-- Inside the existing block content in patient_detail.html -->
+<div class="controls">
+    <h2>Controls</h2>
+    <ul class="timeline">
+        {% for control in patient.controls.all %}
+            <li class="timeline-item">
+                <div class="date">{{ control.date }}</div>
+                <div class="description">
+                    <p><strong>Date:</strong> {{ control.date }}</p>
+                    <p><strong>Details:</strong> {{ control.details }}</p>
+                </div>
+
+                <div class="image-gallery">
+                    {% for mimage in control.control_images_set.all %}
+                        <div class="image-set">
+                            <img src="{{ mimage.image.url }}" alt="Control Image">
+                        </div>
+                    {% endfor %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Your existing patient details and controls HTML here... -->
+
+
      
      <div class="image-zoom-container"></div>
      
      <script>
-         // Add JavaScript to toggle control descriptions and image zoom effect
-         const timelineItems = document.querySelectorAll('.timeline-item');
-         timelineItems.forEach(item => {
-             item.addEventListener('click', () => {
-                 const description = item.querySelector('.description');
-                 if (description.style.display === 'none') {
-                     description.style.display = 'block';
-                 } else {
-                     description.style.display = 'none';
-                 }
-             });
-         });
-     
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var timelineItems = document.querySelectorAll('.timeline-item');
+    
+            timelineItems.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    var description = this.querySelector('.description');
+                    var imageGallery = this.querySelector('.image-gallery');
+    
+                    // Toggle visibility
+                    description.style.display = (description.style.display === 'none') ? 'block' : 'none';
+                    imageGallery.style.display = (imageGallery.style.display === 'none') ? 'block' : 'none';
+                });
+            });
+        });
+
          // Add JavaScript for image zoom effect
          const imageSets = document.querySelectorAll('.image-set img');
          const imageZoomContainer = document.querySelector('.image-zoom-container');
