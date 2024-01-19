@@ -26,6 +26,7 @@ class PatientAdminForm(forms.ModelForm):
         fields = '__all__'  # Specify all fields or list the fields you want to include
         widgets = {
             'date_of_first_presentation': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_birth' : forms.DateInput(attrs={'type': 'date'}),
         }
 class ControlAdminForm(forms.ModelForm):
     class Meta:
@@ -42,7 +43,7 @@ class PatientAdmin(admin.ModelAdmin):
     form = PatientAdminForm
     inlines = [PatientAdditionalInfoInline, PatientImageInline, ControlInline]
     filter_horizontal = ('ct_images_before', 'ct_images_after')
-    list_display = ('first_name', 'last_name', 'primary_tumor', 'num_metastasis', 'mark_for_study')
+    list_display = ('first_name', 'last_name', 'primary_tumor', 'num_metastasis_left', 'mark_for_study','lung_option','num_metastasis_right')
 
 
 
@@ -60,11 +61,9 @@ class PatientImageAdmin(admin.ModelAdmin):
 class ControlAdmin(admin.ModelAdmin):
     form = ControlAdminForm
     inlines = [ControlImagesInline]
-    list_display = ('patient', 'date', 'details')
+    list_display = ('patient', 'date')
 
-    class ControlImagesInline(admin.TabularInline):
-        model = Control_Images
-        extra = 1
+ 
 
 admin.site.register(AdminManagedUser, AdminManagedUserAdmin)
 admin.site.register(Patient, PatientAdmin)

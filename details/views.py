@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
-from .models import Patient 
+from .models import Patient , Control
 from django.db.models import Q,Count
 import matplotlib.pyplot as plt
 import os
@@ -96,8 +96,9 @@ def patients_info(request):
     })
 @login_required
 def patient_detail(request, patient_id):
-    patient = Patient.objects.get(pk=patient_id)
-    return render(request, 'patient.html', {'patient': patient})
+    patient = Patient.objects.get(id=patient_id)
+    controls_queryset = Control.objects.filter(patient=patient)
+    return render(request, 'patient.html', {'controls_queryset': controls_queryset, 'patient': patient})
 
 def redirect_authenticated_user(request):
     if request.user.is_authenticated:

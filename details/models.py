@@ -4,10 +4,13 @@ from django.db.models.functions import Lower
 
 class Patient(models.Model):
     SEX_CHOICES = [('M', 'Male'),('F', 'Female'),('O', 'Other'),]
+    LUNG_CHOICES = [('L', 'Left Lung'), ('R', 'Right Lung') , ('B', 'Both Lungs')]
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     primary_tumor = models.CharField(max_length=100)
-    num_metastasis = models.PositiveIntegerField()
+    lung_option = models.CharField(max_length=1, choices=LUNG_CHOICES, blank=True, null=True)
+    num_metastasis_left = models.PositiveIntegerField(blank=True, null=True)
+    num_metastasis_right = models.PositiveIntegerField(blank=True, null=True)
     date_of_first_presentation = models.DateField(blank=True, null=True)
     ct_images_before = models.ManyToManyField('PatientImage', related_name='before_images', blank=True)
     ct_images_after = models.ManyToManyField('PatientImage', related_name='after_images', blank=True)
