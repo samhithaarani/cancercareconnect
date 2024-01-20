@@ -43,7 +43,7 @@ class PatientAdmin(admin.ModelAdmin):
     form = PatientAdminForm
     inlines = [PatientAdditionalInfoInline, PatientImageInline, ControlInline]
     filter_horizontal = ('ct_images_before', 'ct_images_after')
-    list_display = ('first_name', 'last_name', 'primary_tumor', 'num_metastasis_left', 'mark_for_study','lung_option','num_metastasis_right')
+    list_display = ('first_name', 'last_name', 'primary_tumor', 'mark_for_study','lung_option','num_metastasis_right' ,'num_metastasis_left')
 
 
 
