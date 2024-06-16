@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x5qz=*j#e_84&**&t5l(*(nl$^1pf60nn5cm=fu3zardtcf04y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["metastaze.online","localhost:*"]
+ALLOWED_HOSTS = ["metastaze.online"]
 
 
 # Application definition
