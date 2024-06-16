@@ -1,4 +1,4 @@
-name: Deploy to Custom Server
+name: Deploy to metastaze Server
 
 on:
   push:
