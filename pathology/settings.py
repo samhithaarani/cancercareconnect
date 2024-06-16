@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-x5qz=*j#e_84&**&t5l(*(nl$^1pf60nn5cm=fu3zardtcf04y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["metastaze.online"]
 
 
 # Application definition
@@ -148,4 +148,7 @@ SESSION_COOKIE_AGE = 3600  # Set session expiration to 1 hour (in seconds)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Session expires when browser is closed
 SESSION_COOKIE_SECURE = False  # Set to True if using HTTPS
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://metastaze.online',
+    'https://www.metastaze.online'
+]
